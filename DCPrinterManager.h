@@ -29,9 +29,16 @@ typedef enum {
 
 @end
 
+/*
+ Manages the connection with a bluetooth zebra printer. Instructs the printer to print a given set of commands
+ */
 @interface DCPrinterManager : NSObject
 
 @property(nonatomic, weak) id<DCPrinterDelegate> delegate;
+
+/*
+ These are the commands you want to send to the printer
+ */
 @property(nonatomic, strong) NSString *commands;
 
 - (void)print;
