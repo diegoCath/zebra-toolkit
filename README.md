@@ -1,4 +1,4 @@
-###H3 Zebra-Toolkit
+### Zebra-Toolkit
 
 A small group of objective-c classes that make it very easy to print simple labels with a bluetooth zebra printer.
 
