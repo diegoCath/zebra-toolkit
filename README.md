@@ -2,10 +2,10 @@
 
 A small group of objective-c classes that make it very easy to print simple labels with a bluetooth zebra printer.
 
-`DCZPLHelper` is a class that help you create a label without needing to worry about the details of ZPL. Currently supported functionalities are:<br>
+`DCZPLHelper` is a class that helps you create a label without needing to worry about the details of ZPL. Currently supported functionalities are:<br>
 	- Single line text<br>
 	- Multi-line wrapping text<br>
-	- Lines<br>
+	- Decorative lines<br>
 	- Images<br>
 	- PDF417 barcodes
 	
@@ -20,7 +20,7 @@ DCZPLHelper *zplh = [DCZPLHelper alloc] initWithLabelWidth:580 labelLength:900];
 [zplh moveCursorByX:0 y:100];
 [zplh drawHorizontalLineWithThickness:1];
 /*
-	add more things here
+	add more things to the label here
 */
 NSString *commands = [zplh finish];
 
