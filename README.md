@@ -5,8 +5,8 @@ A small group of objective-c classes that make it very easy to print simple labe
 `DCZPLHelper` is a class that helps you create a label without needing to worry about the details of ZPL. Currently supported functionalities are:<br>
 	- Single line text<br>
 	- Multi-line wrapping text<br>
-	- Decorative lines<br>
-	- Images<br>
+	- Decorative lines and boxes<br>
+	- Images (through UIImages+HexCompression)<br>
 	- PDF417 barcodes
 	
 `DCPrinterManager` is a very minimalistic class that manages a connection with a zebra bluetooth printer.
@@ -30,3 +30,4 @@ pm.commands = commands;
 [pm print];
 ```
 
+This project requires you to install the Zebra SDK. You can find [more information here](https://www.zebra.com/us/en/products/software/barcode-printers/link-os/link-os-sdk.html). 
