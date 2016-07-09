@@ -102,11 +102,9 @@
             
             if(count == 1) {
                 [retVal appendFormat:@"%c", currentChar];
-            }
-            else if(currentChar == '0' && index + count == line.length) {
+            } else if(currentChar == '0' && index + count == line.length) {
                 [retVal appendString:@","];
-            }
-            else {
+            } else {
                 [retVal appendFormat:@"%@%c", getCountRepresentation(count), currentChar];
             }
             
@@ -122,8 +120,6 @@
     NSString *currentLine = @"";
     NSString *prevLine;
     NSString *currentByte = @"";
-    
-    int x = 0, y = 0, count = image.size.width * image.size.height;
     
     // First get the image into your data buffer
     CGImageRef imageRef = [image CGImage];
@@ -142,36 +138,45 @@
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
     CGContextRelease(context);
     
-    //NOTE(diego_cath): here we iterate through all pixels of the image, we transform pixels into bits, group bits into hex digits, group hex digits in a string and then compress the string.
+    // NOTE(diego_cath): we will extend the width of the image so that it is evenly divisible by 8. This is required by zpl hex compression
     
-    NSUInteger byteIndex = (bytesPerRow * y) + x * bytesPerPixel;
+    int extendedWidth = 8 * ceil((float)image.size.width/8.0);
+    int count = extendedWidth * image.size.height;
+    NSUInteger byteIndex = 0;
+    
+    // NOTE(diego_cath): here we iterate through all pixels of the image, we transform pixels into bits, group bits into hex digits, group hex digits in a string and then compress the string.
+    
     for (int i = 0 ; i < count ; ++i) {
-        CGFloat alpha = ((CGFloat) rawData[byteIndex + 3] ) / 255.0f;
-        CGFloat red   = ((CGFloat) rawData[byteIndex]     ) / alpha;
-        CGFloat green = ((CGFloat) rawData[byteIndex + 1] ) / alpha;
-        CGFloat blue  = ((CGFloat) rawData[byteIndex + 2] ) / alpha;
-        byteIndex += bytesPerPixel;
         
-        int avg = (red + green + blue) / 3;
-        
-        if(avg > 100 || alpha < .1) {
+        if(currentLine.length * 4 < width) {
+            CGFloat alpha = ((CGFloat) rawData[byteIndex + 3] ) / 255.0f;
+            CGFloat red   = ((CGFloat) rawData[byteIndex]     ) / alpha;
+            CGFloat green = ((CGFloat) rawData[byteIndex + 1] ) / alpha;
+            CGFloat blue  = ((CGFloat) rawData[byteIndex + 2] ) / alpha;
+            byteIndex += bytesPerPixel;
+            
+            int avg = (red + green + blue) / 3;
+            
+            if(avg > 100 || alpha < .1) {
+                currentByte = [currentByte stringByAppendingString:@"0"];
+            } else {
+                currentByte = [currentByte stringByAppendingString:@"1"];
+            }
+        } else {
             currentByte = [currentByte stringByAppendingString:@"0"];
-        }
-        else {
-            currentByte = [currentByte stringByAppendingString:@"1"];
         }
         
         if(currentByte.length == 4) {
             currentLine = [currentLine stringByAppendingString:hexForByte(currentByte)];
             currentByte = @"";
         }
-        if(currentLine.length*4 == width) {
+        if(currentLine.length*4 == extendedWidth) {
             
             currentLine = processLine(currentLine);
             if([currentLine isEqualToString:prevLine]) {
-                currentLine = @":";     //NOTE(diego_cath): in ascii-hex compression format, a colon is replaced by the previous line.
-            }
-            else {
+                // NOTE(diego_cath): in ascii-hex compression format, a colon is replaced by the previous line.
+                currentLine = @":";
+            } else {
                 prevLine = currentLine;
             }
             

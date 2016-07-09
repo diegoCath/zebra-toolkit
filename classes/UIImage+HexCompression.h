@@ -12,7 +12,6 @@
 /*
  
  - returns the zpl hex representation of self (UIImage)
- NOTE(diego_cath): width and height of image need to be divisible by 8 because of the way the encoding works.
  
  */
 
