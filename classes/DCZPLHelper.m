@@ -1,6 +1,5 @@
 //
 //  ZPLHelper.m
-//  BasicServices
 //
 //  Created by Diego Cathalifaud on 1/25/16.
 //  Copyright (c) 2016 Diego Cathalifaud. All rights reserved.
@@ -56,6 +55,11 @@
     [self.commands appendString:[NSString stringWithFormat:@"^GFA,%d,%d,%d,%@^FS", bytes, bytes, bpr, dataStr]];
 }
 
+- (void)drawBoxWithThickness:(int)e w:(int)w h:(int)h {
+    
+    [self.commands appendString:[NSString stringWithFormat:@"^GB%d,%d,%d^FS", w, h, e]];
+}
+
 - (void)drawHorizontalLineWithThickness:(int)e {
     
     [self.commands appendString:[NSString stringWithFormat:@"^GB%d,%d,%d^FS", self.width, e, e]];
@@ -65,6 +69,12 @@
     
     [self.commands appendString:[NSString stringWithFormat:@"^A0N,%d,%d", h, h]];
     [self.commands appendString:[NSString stringWithFormat:@"^FB%d,10,,^FD%@^FS", self.width - 20, text]];
+}
+
+- (void)addWrappingText:(NSString*)text withFontHeight:(int)h boxWidth:(int)w textLines:(int)nLines {
+    
+    [self.commands appendString:[NSString stringWithFormat:@"^A0,%d,%d", h, h]];
+    [self.commands appendString:[NSString stringWithFormat:@"^FB%d,%d,,^FD%@^FS", w, nLines, text]];
 }
 
 - (void)addTextBox:(NSString*)text withBoxWidth:(int)w fontHeight:(int)h {

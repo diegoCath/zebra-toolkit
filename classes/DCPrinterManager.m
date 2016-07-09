@@ -1,7 +1,6 @@
 //
 //  PrinterManager.m
 //
-//
 //  Created by Diego Cathalifaud on 1/25/16.
 //  Copyright (c) 2016 Diego Cathalifaud. All rights reserved.
 //

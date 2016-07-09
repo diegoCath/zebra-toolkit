@@ -1,6 +1,5 @@
 //
 //  ZPLHelper.h
-//  BasicServices
 //
 //  Created by Diego Cathalifaud on 1/25/16.
 //  Copyright (c) 2016 Diego Cathalifaud. All rights reserved.
@@ -34,6 +33,11 @@
 - (void)drawImageWithDataString:(NSString*)dataStr byteCount:(int)bytes bytesPerRow:(int)bpr;
 
 /*
+    - draws a rectangle at the cursor position
+ */
+- (void)drawBoxWithThickness:(int)e w:(int)w h:(int)h
+
+/*
     - draws a horizontal line at the cursor position
  */
 - (void)drawHorizontalLineWithThickness:(int)e;
@@ -42,6 +46,11 @@
     - draws a paragraph of text at the cursor position
  */
 - (void)addWrappingText:(NSString*)text withFontHeight:(int)h;
+
+/*
+    - draws a paragraph of text at the cursor position
+ */
+- (void)addWrappingText:(NSString*)text withFontHeight:(int)h boxWidth:(int)w textLines:(int)nLines
 
 /*
     - this method is supposed to draw a multi-line text box but for some reason it's not working properly
